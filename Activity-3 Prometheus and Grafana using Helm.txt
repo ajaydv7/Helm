@@ -1,0 +1,59 @@
+############################################################################################
+Installing Monitoring tools ( Prometheus & Grafana ) using Helm
+############################################################################################
+
+Step 1: Create a new namespace "monitoring"
+=> kubectl create namespace monitoring
+
+Step 2: Add Prometheus repo using helm
+=> helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+Step 3: Check above repo is added or not
+=> helm repo list
+
+Step 4: Update Helm Repo
+=> helm repo update
+
+Step 5: Install Prometheus
+=> helm install prometheus prometheus-community/prometheus -n monitoring
+
+Step 6: Check the deployments, services and pods
+=> kubectl -n monitoring get pod
+=> kubectl -n monitoring get svc
+=> kubectl -n monitoring get deployments
+
+Step 7: Edit the "prometheus-server" service for providing external access
+=> kubectl -n monitoring edit svc prometheus-server
+	## Search for type : ClusterIP - Replace it with NodePort
+	## Save the file
+
+Step 8: Check the services and you will find the service is changed 
+=> kubectl -n monitoring get svc
+
+Step 9: For accessing Prometheus Application, Open a browser and provide url as "http://<NODE_IP>:<PORT>
+
+Step 10: Install Grafana
+=> helm install grafana bitnami/grafana -n monitoring
+
+Step 11: For getting credentials, execute the command displayed on the terminal
+
+STep 12: Check the deployments, services and pods
+=> kubectl -n monitoring get pod
+=> kubectl -n monitoring get svc
+=> kubectl -n monitoring get deployments
+
+Step 13: Edit the "grafana" service for providing external access
+=> kubectl -n monitoring edit svc grafana
+	## Search for type : ClusterIP - Replace it with NodePort
+	## Save the file
+
+Step 14: Check the services and you will find the service is changed 
+=> kubectl -n monitoring get svc
+ 
+Step 15: For accessing Grafana Application, Open a browser and provide url as "http://<NODE_IP>:<PORT> and provide the credentials
+
+Step 16: In the Grafana Dashboard, for integrating Prometheus with Grafana. Select Add Data Source and select prometheus. In the URL, provide value as "http://prometheus-server:80" and scroll down and click on "Save and Test".
+
+Step 17: Now go to Dashboards, and select Import option. Under "Import via grafana.com" provide value as 6417. It will import pre-defined dashboard for us.
+
+Step 18: If you want you can also create your own customized dashboard.

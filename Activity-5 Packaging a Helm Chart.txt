@@ -1,0 +1,39 @@
+#########################################################################
+Packaging Chart as GitHub Repo
+#########################################################################
+
+Step 1: For packaging the chart 
+=> helm package nginx-demo
+
+Step 2: Go to github.com and create a new repo
+
+Step 3: To set up your git repo locally
+=> git clone https://github.com/NeeharikaRN/Helm-example.git
+=> cd Helm-example
+=> git checkout -b gh-pages
+=> vi index.yaml
+=> git add index.yaml
+=> git commit -a -m "add index.yaml"
+=> git push --set-upstream origin gh-pages
+
+Step 4: Go to github.com and verify whether push was successfull or not. Navigate to Settings and search for "Pages" and select source as gh-pages. You will get a link.
+
+Step 5: To push the helm chart into repository 
+=> mv nginx-demo-0.1.0.tgz Helm-example
+=> helm repo index Helm-example/ --url https://neeharikarn.github.io/Helm-example/
+
+Step 6: Above command will generate index.yaml.
+=> cat Helm-example/index.yaml 
+
+Step 7: Push the changes to GitHub
+=> cd Helm-example
+=> git commit -a -m "change index"
+=> git push origin
+
+Step 8: Check that your server is serving index.yaml:
+=> curl https://neeharikarn.github.io/Helm-example/index.yaml
+
+Step 9: Now, we can share this Helm chart with others and also reuse it
+=> helm repo add my-helm-example https://neeharikarn.github.io/Helm-example
+=> helm repo list
+=> helm install my-nginx my-helm-example/nginx-demo

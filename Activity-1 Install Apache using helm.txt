@@ -1,0 +1,40 @@
+Step 1: Create a new directory say helm-demo in k8s directory
+=> mkdir -p ~/k8s/lab-files/helm-demo && cd ~/k8s/lab-files/helm-demo
+
+Step 2: To install helm execute all the commands below -
+# i. Download the compressed tar file
+=> curl -O https://get.helm.sh/helm-v3.10.0-linux-amd64.tar.gz
+
+# ii. Uncompress and expand the file
+=> tar -xvf helm-v3.10.0-linux-amd64.tar.gz
+
+# iii. Copy the helm binary to /usr/local/bin to make it usable via the shell search path
+=> sudo cp linux-amd64/helm /usr/local/bin/helm
+
+Step 3: To search the current Charts in the Helm Hub use the below command.
+=> helm search hub database
+
+Step 4: To add some of the common repositories use -
+=> helm repo add stable https://charts.helm.sh/stable
+=> helm repo add bitnami https://charts.bitnami.com/bitnami
+
+Step 5: Update the repository info
+=> helm repo update
+
+Step 6: To install apache along with --debug option use -
+=> helm install apache-deploy bitnami/apache --set service.type=LoadBalancer
+
+Step 7: To list the deployments done through helm package manager use -
+=> helm list
+
+Step 8: To check the pods deployed using above helm charts use -
+=> kubectl get pods
+
+Step 9: To access the apache web server default home page on a new browser tab window use -
+=> http://<HOST-IP-ADDRESS>:<NODE-PORT>
+
+Step 10 : To delete the deployed bitnami/apache chart use -
+=> helm uninstall apache-deploy
+
+Step 11: To list the deployments done through helm package manager use -
+=> helm list

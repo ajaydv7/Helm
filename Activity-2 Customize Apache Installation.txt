@@ -1,0 +1,43 @@
+################################################################################################################################
+Customize Apache Installation
+################################################################################################################################
+
+Step 1: Search for Apache chart
+=> find ~ -name *apache*
+
+Step 2: To uncompressed the tar file use -
+=> tar -xvf ~/.cache/helm/repository/apache-X.X.X.tgz
+
+Step 3: To use custom values, we are duplicating the values.yaml file
+=> cp apache/values.yaml custom.yaml
+
+Step 4: Open the custom.yml and look for the service section. Modify it as
+service:
+  ## Service type
+  ##
+  type: LoadBalancer
+  ## HTTP Port
+  ##
+  port: 80
+  ## HTTPS Port
+  ##
+  httpsPort: 443
+  ## Specify the nodePort(s) value(s) for the LoadBalancer and NodePort service types.
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
+  ##
+  nodePorts:
+    http: "31201"  --- (modification)
+
+=> for opening the file : vi custom.yaml
+=> for editing : press "i"
+=> for saving the file : press "Esc" and type ":wq!"
+
+Step 5: To deploy the apache
+=> helm install -f custom.yaml apache-deploy bitnami/apache
+
+Step 6: For accessing the application
+=> http://<HOST-IP-ADDRESS>:<NODE-PORT>
+
+Step 7: To clean up the resources
+=> helm uninstall apache-deploy
+=> helm list
